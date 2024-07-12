@@ -1,0 +1,4 @@
+train_fraction: 0.8
+test_fraction: 0.5
+random_state: 42
+target_column: label
