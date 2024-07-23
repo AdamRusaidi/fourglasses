@@ -29,13 +29,19 @@ def split_data(
     logger = logging.getLogger(__name__)
     logger.info("Performing dimension reduction using Random forest classifer to keep the most imformative features...")
 
+    # Encode the label into integer form accordingly for label encoding
+    data[parameters["target_column"]] = data[parameters["target_column"]].map({'POSITIVE': 2, 'NEUTRAL': 1, 'NEGATIVE': 0})
+
     # Train a model and use its feature importance to select the most informative features.
     X = data.drop(columns=[parameters["target_column"]])
     y = data[parameters["target_column"]]
     clf = RandomForestClassifier()
     clf.fit(X, y)
+
+    # Get the feature importances
     feature_importance = clf.feature_importances_
-    selected_features = X.columns[feature_importance > 0.01]  # Adjust the threshold as needed
+    # Adjust the threshold as needed
+    selected_features = X.columns[feature_importance > 0.01]  
     df_reduced_model = data[selected_features]
 
     logger.info("")
