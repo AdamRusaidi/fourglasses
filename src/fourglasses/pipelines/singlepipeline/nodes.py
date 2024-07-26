@@ -65,7 +65,8 @@ def split_data(
         df_reduced_model.drop(columns=[parameters["target_column"]]),
         df_reduced_model[parameters["target_column"]],
         train_size=parameters["train_fraction"],
-        random_state=parameters["random_state"]
+        random_state=parameters["random_state"],
+        stratify=df_reduced_model[parameters["target_column"]]
     )
 
     # Train a model on the training set
@@ -81,9 +82,11 @@ def split_data(
 
     # Split the temporary set into 50% testing and 50% validation
     X_test, X_val, y_test, y_val = train_test_split(
-        X_temp, y_temp,
+        X_temp, 
+        y_temp,
         test_size=parameters["test_fraction"],
-        random_state=parameters["random_state"]
+        random_state=parameters["random_state"],
+        stratify=y_temp
     )
 
     return X_train, y_train, X_test, y_test, X_val, y_val
