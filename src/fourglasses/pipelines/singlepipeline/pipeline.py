@@ -14,12 +14,12 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 func=make_predictions,
-                inputs=["X_train", "X_test", "X_val", "y_train"],
-                outputs="y_pred",
+                inputs=["X_train", "X_test", "y_test", "y_train", "X_val", "y_val"],
+                outputs=["X_valid", "y_valid", "SVM_model"],
                 name="make_predictions",),
             node(
                 func=report_accuracy,
-                inputs=["y_pred", "y_test"],
+                inputs=["X_valid", "y_valid", "SVM_model"],
                 outputs=None,
                 name="report_accuracy_node",
             ),
