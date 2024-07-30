@@ -29,8 +29,13 @@ def split_data(
         Split data.
     """
     logger = logging.getLogger(__name__)
-    logger.info("Performing dimension reduction using Random forest classifer to keep the most informative features...")
 
+    logger.info("Cleaning Data....")
+    # Drop rows with any missing values
+    data = data.dropna()
+    logger.info("")
+
+    logger.info("Performing dimension reduction using Random forest classifer to keep the most informative features...")
     # Encode the label into integer form accordingly for label encoding
     data[parameters["target_column"]] = data[parameters["target_column"]].map({'POSITIVE': 2, 'NEUTRAL': 1, 'NEGATIVE': 0})
 
